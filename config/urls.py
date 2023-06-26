@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include
-from django.urls import path
+from django.urls import path, include
 from django.urls import re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
@@ -17,11 +17,12 @@ schema_view = get_schema_view(
         title="Eduspace Courses API",
         default_version="v1",
         description=DESCRIPTION,
-        license="https://eduspace.live/",
+        url="https://eduspace.live/",
     ),
     public=True,
     permission_classes=[permissions.AllowAny],
 )
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -30,6 +31,9 @@ urlpatterns = [
     ),  # noqa
     re_path(r"^auth/", include("djoser.urls.jwt")),
     re_path(r"^auth/", include("djoser.urls")),
+
+    #applications_urls
+    path('', include('applications.courses.urls'))
 ]
 
 

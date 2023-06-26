@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "djoser",
     "drf_yasg",
+
+    #applications
+    'applications.courses.apps.CoursesConfig'
 ]
 
 MIDDLEWARE = [

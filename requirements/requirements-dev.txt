@@ -29,3 +29,4 @@ sqlparse==0.4.4
 uritemplate==4.1.1
 urllib3==2.0.3
 pre-commit
+psycopg2-binary

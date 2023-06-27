@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include
-from django.urls import path, include
+from django.urls import path
 from django.urls import re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
@@ -31,9 +31,8 @@ urlpatterns = [
     ),  # noqa
     re_path(r"^auth/", include("djoser.urls.jwt")),
     re_path(r"^auth/", include("djoser.urls")),
-
-    #applications_urls
-    path('', include('applications.courses.urls'))
+    # applications_urls
+    path("", include("applications.courses.urls")),
 ]
 
 

@@ -16,13 +16,13 @@ services:
       context: .
     container_name: main_api
     volumes:
-      - static_volume:/enactus/static
-      - media_volume:/enactus/media
-      - db:/enactus/db
+      - static_volume:/eduspace/static
+      - media_volume:/eduspace/media
+      - db:/eduspace/db
     command: >
           sh -c "python manage.py collectstatic --noinput &&
                  python manage.py migrate &&
-                 uvicorn core.asgi:application --host 0.0.0.0 --reload"
+                 gunicorn --bind 0.0.0.0:8000 core.wsgi"
     env_file:
       - .env
     ports:
@@ -48,7 +48,7 @@ services:
     command: >
       sh -c 'celery -A core.celery_conf worker -l info'
     volumes:
-      - .:/enactus
+      - .:/eduspace
     links:
       - redis
     depends_on:
@@ -65,8 +65,8 @@ services:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
       - etc-letsencrypt:/etc/letcsencrypt
-      - static_volume:/enactus/static
-      - media_volume:/enactus/media
+      - static_volume:/eduspace/static
+      - media_volume:/eduspace/media
     depends_on:
       - main_api
     ports:
@@ -80,7 +80,7 @@ services:
   #   volumes:
   #     - ./certbot/conf:/etc/letsencrypt
   #     - ./certbot/www:/var/www/certbot
-  #   command: certonly --webroot -w /var/www/certbot --force-renewal --email lalavitohack@gmail.com -d enactusanimals.com --agree-tos
+  #   command: certonly --webroot -w /var/www/certbot --force-renewal --email lalavitohack@gmail.com -d eduspace.live --agree-tos
 
 volumes:
   static_volume:

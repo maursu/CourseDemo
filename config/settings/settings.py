@@ -42,9 +42,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "djoser",
     "drf_yasg",
-
-    #applications
-    'applications.courses.apps.CoursesConfig'
+    "applications.users",
+    "applications.courses",
 ]
 
 MIDDLEWARE = [
@@ -139,6 +138,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+    "DATETIME_FORMAT": "%d-%m-%Y %H:%M:%S",
 }
 
 
@@ -163,3 +163,5 @@ SWAGGER_SETTINGS = {
     },
     "USE_SESSION_AUTH": False,
 }
+
+AUTH_USER_MODEL = "users.User"

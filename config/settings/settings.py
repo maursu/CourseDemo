@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "djoser",
     "drf_yasg",
-
     "applications.users",
+    "applications.courses",
 ]
 
 MIDDLEWARE = [
@@ -127,10 +127,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
-STATIC_ROOT = 'static'
-
-MEDIA_URL = 'media/'
-MEDIA_ROOT = 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -142,7 +138,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    'DATETIME_FORMAT': '%d-%m-%Y %H:%M:%S'
+    "DATETIME_FORMAT": "%d-%m-%Y %H:%M:%S",
 }
 
 
@@ -168,4 +164,4 @@ SWAGGER_SETTINGS = {
     "USE_SESSION_AUTH": False,
 }
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = "users.User"

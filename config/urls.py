@@ -17,6 +17,7 @@ schema_view = get_schema_view(
         title="Eduspace Courses API",
         default_version="v1",
         description=DESCRIPTION,
+        url="https://eduspace.live/",
     ),
     public=True,
     permission_classes=[permissions.AllowAny],
@@ -28,13 +29,12 @@ urlpatterns_versions = [
     re_path(r"^auth/", include("djoser.urls.jwt")),
     re_path(r"^auth/", include("djoser.urls")),
     path("", include("applications.users.urls")),
+    path("", include("applications.courses.urls")),
 ]
 
 urlpatterns = [
-    path('api/v1/', include(urlpatterns_versions)),
-    path(
-        "", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"
-    ),
+    path("api/v1/", include(urlpatterns_versions)),
+    path("", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
 ]
 
 

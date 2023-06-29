@@ -1,5 +1,5 @@
 make run:
-	python manage.py runserver --settings=config.settings.settings
+	python manage.py runserver --settings=config.settings.local
 
 make admin:
 	python manage.py createsuperuser

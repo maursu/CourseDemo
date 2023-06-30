@@ -1,9 +1,9 @@
-from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework import viewsets
 
-from permissions.user_permissions import IsObjectOwner
-from .serializers import UserProfileSerializer
 from .models import UserProfile
+from .serializers import UserProfileSerializer
+from permissions.user_permissions import IsObjectOwner
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
@@ -13,7 +13,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.request.method in permissions.SAFE_METHODS:
             self.permission_classes = [permissions.AllowAny]
-        elif self.request.method == 'POST':
+        elif self.request.method == "POST":
             self.permission_classes = [permissions.IsAuthenticated]
         else:
             self.permission_classes = [IsObjectOwner]

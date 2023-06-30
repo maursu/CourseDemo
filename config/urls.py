@@ -30,6 +30,7 @@ urlpatterns_versions = [
     re_path(r"^auth/", include("djoser.urls")),
     path("", include("applications.users.urls")),
     path("", include("applications.courses.urls")),
+    path("", include("applications.module_parts.urls")),
 ]
 
 urlpatterns = [
@@ -41,5 +42,6 @@ urlpatterns = [
 if settings.DEBUG:
     from django.conf.urls.static import static
 
+    urlpatterns_versions += [path("silk/", include("silk.urls", namespace="silk"))]
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

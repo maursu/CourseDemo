@@ -66,6 +66,32 @@ class Addition(AbstractModel):
     )
     text = models.TextField(blank=False, null=False)
 
-    class Meta:
-        verbose_name = "Addition"
-        verbose_name_plural = "Additions"
+    def __str__(self) -> str:
+        return self.program_block
+
+
+class TestQuestion(models.Model):
+    id = models.UUIDField(primary_key=True, max_length=10, editable=False)
+    question_body = models.TextField()
+    rgiht_answer = models.TextField(blank=False, null=False)
+
+    def __str__(self) -> str:
+        return self.question_body
+
+
+class TestAnswer(models.Model):
+    id = models.UUIDField(primary_key=True, max_length=10, editable=False)
+    answer_body = models.TextField(blank=False, null=False)
+    question = models.ForeignKey(
+        to=TestQuestion,
+        on_delete=models.CASCADE,
+        related_name='test_answers'
+    )
+
+
+class CourseTaskBlock(models.Model):
+    id = models.UUIDField(primary_key=True, max_length=10, editable=False)
+    task_block_body = models.TextField(blank=False, null=False)
+
+    def __str__(self) -> str:
+        return self.id

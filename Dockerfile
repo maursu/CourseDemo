@@ -1,9 +1,16 @@
-FROM python:3.10-slim
+# Используем базовый образ Python
+FROM python:3.11-slim
 
-ENV PYTHONDONTWRITEBYTECODE 1
+# Устанавливаем переменную окружения PYTHONUNBUFFERED в значение 1
+# Это гарантирует, что вывод Python не будет буферизоваться
 ENV PYTHONUNBUFFERED 1
 
-COPY . /eduspace
-WORKDIR /eduspace
+# Устанавливаем рабочую директорию внутри контейнера
+WORKDIR /code
 
-RUN pip install -r requirments/requirments-dev.txt
+# Устанавливаем зависимости через pip
+COPY requirements/requirements-prod.txt /code/
+RUN pip install --no-cache-dir -r requirements-prod.txt
+
+# Копируем файлы проекта в рабочую директорию контейнера
+COPY . /code/

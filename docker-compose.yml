@@ -1,89 +1,59 @@
-version: '3.3'
+version: '3'
 
 services:
-
   db:
-    image: postgres:14.7
-    container_name: db
-    env_file:
-      - .env
+    image: postgres:14.8-alpine3.18 
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     volumes:
-      - db:/var/lib/postgresql/data
+      - ./data/db:/var/lib/postgresql/data
 
-  main_api:
+  web:
     build:
-      dockerfile: Dockerfile
       context: .
-    container_name: main_api
-    volumes:
-      - static_volume:/eduspace/static
-      - media_volume:/eduspace/media
-      - db:/eduspace/db
+      dockerfile: Dockerfile
     command: >
           sh -c "python manage.py collectstatic --noinput &&
                  python manage.py migrate &&
-                 gunicorn --bind 0.0.0.0:8000 core.wsgi"
-    env_file:
-      - .env
-    ports:
-      - 8000:8000
+                 gunicorn --bind 0.0.0.0:8000 config.wsgi:application"
+    volumes:
+      - .:/code
     expose:
       - 8000
-    links:
-      - redis
     depends_on:
+      - db
       - redis
-
-  redis:
-    image: redis:alpine
-    hostname: redis
-    expose:
-      - 6379
-
-  celery:
-    build:
-      context: .
+      # - celery-worker
     env_file:
       - .env
-    command: >
-      sh -c 'celery -A core.celery_conf worker -l info'
-    volumes:
-      - .:/eduspace
-    links:
-      - redis
-    depends_on:
-      - redis
-      - main_api
-
-  nginx:
-    build:
-      dockerfile: Dockerfile
-      context: ./docker_nginx/nginx
-    container_name: nginx
-    image: nginx
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-      - etc-letsencrypt:/etc/letcsencrypt
-      - static_volume:/eduspace/static
-      - media_volume:/eduspace/media
-    depends_on:
-      - main_api
-    ports:
-      - "80:80"
-      - "443:443"
     restart: always
 
-  # certbot:
-  #   image: certbot/certbot
-  #   container_name: certbot
-  #   volumes:
-  #     - ./certbot/conf:/etc/letsencrypt
-  #     - ./certbot/www:/var/www/certbot
-  #   command: certonly --webroot -w /var/www/certbot --force-renewal --email lalavitohack@gmail.com -d eduspace.live --agree-tos
+  redis:
+    image: redis:7.0.11-alpine
 
-volumes:
-  static_volume:
-  media_volume:
-  db:
-  etc-letsencrypt:
+  # celery-worker:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   command: celery -A core worker --loglevel=info
+  #   volumes:
+  #     - .:/code
+  #   depends_on:
+  #     - db
+  #     - redis
+  #   env_file:
+  #   - .env
+  #   restart: always
+    
+  nginx:
+    image: nginx
+    volumes:
+      - ./deployment/nginx/conf.d:/etc/nginx/conf.d
+      - ./static:/code/static
+      - ./media:/code/media
+    ports:
+      - 80:80
+    depends_on:
+      - web

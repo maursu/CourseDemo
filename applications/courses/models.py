@@ -19,7 +19,7 @@ class AbstractModel(models.Model):
 
 class CourseCategory(AbstractModel):
     title = models.CharField(max_length=150, blank=False, null=False)
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField(null=True)
 
     class Meta:
         verbose_name = "Course category"

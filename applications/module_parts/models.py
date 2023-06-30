@@ -13,6 +13,9 @@ class AbstractModuleBlock(AbstractModel):
     video = models.FileField(upload_to="videos/%Y/%m/%d")
     audio = models.FileField(upload_to="audios/%Y/%m/%d")
 
+    class Meta:
+        abstract = True
+
 
 class Test(AbstractModuleBlock):
     module = models.ForeignKey(
@@ -26,7 +29,7 @@ class Test(AbstractModuleBlock):
 
 class TestQuestion(AbstractModel):
     test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name="questions")
-    question_body = models.TextField()
+    question_body = models.TextField(null=True)
 
     class Meta:
         verbose_name = "Question"

@@ -29,7 +29,7 @@ class Test(AbstractModuleBlock):
 
 class TestQuestion(AbstractModel):
     test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name="questions")
-    question_body = models.TextField(null=True)
+    question_body = models.TextField()
 
     class Meta:
         verbose_name = "Question"
@@ -41,7 +41,7 @@ class TestAnswer(AbstractModel):
     question = models.ForeignKey(
         TestQuestion, on_delete=models.CASCADE, related_name="answers"
     )
-    is_right = models.BooleanField(blank=False, null=False)
+    is_right = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Answer"

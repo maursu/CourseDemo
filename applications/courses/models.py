@@ -83,9 +83,7 @@ class TestAnswer(models.Model):
     id = models.UUIDField(primary_key=True, max_length=10, editable=False)
     answer_body = models.TextField(blank=False, null=False)
     question = models.ForeignKey(
-        to=TestQuestion,
-        on_delete=models.CASCADE,
-        related_name='test_answers'
+        to=TestQuestion, on_delete=models.CASCADE, related_name="test_answers"
     )
 
 

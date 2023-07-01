@@ -2,7 +2,7 @@ version: '3'
 
 services:
   db:
-    image: postgres:14.8-alpine3.18 
+    image: postgres:14.8-alpine3.18
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
@@ -46,7 +46,7 @@ services:
   #   env_file:
   #   - .env
   #   restart: always
-    
+
   nginx:
     image: nginx
     volumes:

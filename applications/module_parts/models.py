@@ -66,5 +66,3 @@ class Task(AbstractModuleBlock):
     class Meta:
         verbose_name = "Task"
         verbose_name_plural = "Tasks"
-
-

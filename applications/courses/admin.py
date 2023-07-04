@@ -1,11 +1,9 @@
 from django.contrib import admin
 
-from .models import (
-    Course,
-    Addition,
-    CourseCategory,
-    ProgramModule
-    )
+from .models import Addition
+from .models import Course
+from .models import CourseCategory
+from .models import ProgramModule
 
 
 class AdditionInline(admin.TabularInline):

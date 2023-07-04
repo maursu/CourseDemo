@@ -1,5 +1,7 @@
 from fastapi import FastAPI
-from fastapi.websockets import WebSocket, WebSocketDisconnect
+from fastapi.websockets import WebSocket
+from fastapi.websockets import WebSocketDisconnect
+
 from .jwt_decoder import decode_user
 
 
@@ -41,4 +43,3 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int, token: str):
     except WebSocketDisconnect:
         manager.disconnect(websocket)
         await manager.broadcast(f"Client #{client_id} left the chat")
-

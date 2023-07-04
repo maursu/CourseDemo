@@ -162,6 +162,7 @@ SIMPLE_JWT = {
     "ALGORITHM": os.getenv("ALGORITHM"),
     "SIGNING_KEY": SECRET_KEY,
     "AUTH_HEADER_TYPES": ("Bearer", "JWT"),
+    "TOKEN_OBTAIN_SERIALIZER": "applications.users.serializers.MyTokenObtainPairSerializer",
 }
 
 SWAGGER_SETTINGS = {

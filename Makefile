@@ -19,3 +19,5 @@ make shell:
 
 make docker-admin:
 	docker-compose exec -it main_api python manage.py createsuperuser
+
+#  gunicorn --bind 0.0.0.0:8000 config.wsgi:application"

@@ -1,10 +1,28 @@
 from django.contrib import admin
 
-from .models import Course
+from .models import (
+    Course,
+    Addition,
+    CourseCategory,
+    ProgramModule
+    )
 
-# Register your models here.
+
+class AdditionInline(admin.TabularInline):
+    model = Addition
+    extra = 1
+
+
+class ProgramModuleInline(admin.TabularInline):
+    model = ProgramModule
+    extra = 1
 
 
 @admin.register(Course)
-class Course(admin.ModelAdmin):
+class CourseAdmin(admin.ModelAdmin):
+    inlines = (AdditionInline, ProgramModuleInline)
+
+
+@admin.register(CourseCategory)
+class CourseCategory(admin.ModelAdmin):
     ...

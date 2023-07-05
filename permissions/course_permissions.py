@@ -10,3 +10,9 @@ class IsObjectOwner(BasePermission):
 class IsTeacher(BasePermission):
     def has_object_permission(self, request, view, obj):
         return bool(request.user.is_authenticated and request.user.is_teacher)
+
+
+class IsRelatedCourseOwner(BasePermission):
+    def has_object_permission(self, request: Request, view, obj):
+        print(obj.course.author)
+        return bool(request.user == obj.course.author)

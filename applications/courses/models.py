@@ -1,3 +1,4 @@
+import uuid
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -6,7 +7,7 @@ User = get_user_model()
 
 
 class AbstractModel(models.Model):
-    id = models.UUIDField(primary_key=True, max_length=10, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -40,7 +41,7 @@ class Course(AbstractModel):
         CourseCategory, on_delete=models.CASCADE, related_name="category_courses"
     )
     views_count = models.PositiveBigIntegerField(default=0)
-    is_banned = models.BooleanField(default=False)
+    is_published = models.BooleanField(default=False)
     image = models.ImageField(upload_to="course_images/%Y/%m/%d", blank=True)
 
     class Meta:
@@ -67,29 +68,4 @@ class Addition(AbstractModel):
     text = models.TextField(blank=False, null=False)
 
     def __str__(self) -> str:
-        return self.program_block
-
-
-class TestQuestion(models.Model):
-    id = models.UUIDField(primary_key=True, max_length=10, editable=False)
-    question_body = models.TextField()
-    rgiht_answer = models.TextField(blank=False, null=False)
-
-    def __str__(self) -> str:
-        return self.question_body
-
-
-class TestAnswer(models.Model):
-    id = models.UUIDField(primary_key=True, max_length=10, editable=False)
-    answer_body = models.TextField(blank=False, null=False)
-    question = models.ForeignKey(
-        to=TestQuestion, on_delete=models.CASCADE, related_name="test_answers"
-    )
-
-
-class CourseTaskBlock(models.Model):
-    id = models.UUIDField(primary_key=True, max_length=10, editable=False)
-    task_block_body = models.TextField(blank=False, null=False)
-
-    def __str__(self) -> str:
-        return self.id
+        return self.text[:20] + '...'

@@ -1,10 +1,11 @@
 from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import UserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(_("username"), max_length=255, unique=True)
     is_teacher = models.BooleanField(_("Is teacher"), default=False, help_text=_(""))

@@ -6,21 +6,37 @@ from . import models
 class AdditionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Addition
-        fields = "__all__"
+        fields = ['course', 'text']
         read_only_fields = ["author"]
 
-    def create(self, validated_data):
-        self.context["request"].user
-        return super().create(validated_data)
+
+class CourseListSerializer(serializers.ListSerializer):
+    def to_representation(self, data):
+        return super().to_representation(data)
 
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Course
-        fields = "__all__"
+        fields = ['author', 'title', 'price', 'category', 'image', 'views_count', 'is_published']
+        list_serializer_class = CourseListSerializer
+
+        def create(self, validated_data):
+            user = self.context["request"].user
+            validated_data['author'] = user
+            return super().create(validated_data)
 
 
-class CourseListSerializer(serializers.ListSerializer):
+class ProgramModulesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Course
-        fields = "__all__"
+        model = models.ProgramModule
+        fields = ['course', 'description', 'title']
+
+
+class CourseCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.CourseCategory
+        fields = ['title', 'description']
+        
+
+

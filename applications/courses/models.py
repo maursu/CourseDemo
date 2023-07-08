@@ -20,7 +20,9 @@ class AbstractModel(models.Model):
 
 
 class CourseCategory(AbstractModel):
-    title = models.CharField(max_length=150, )
+    title = models.CharField(
+        max_length=150,
+    )
     description = models.TextField(blank=True)
 
     class Meta:
@@ -38,9 +40,7 @@ class Course(AbstractModel):
     )
     students = models.ManyToManyField(User, related_name="student_courses")
     teachers = models.ManyToManyField(User, related_name="teacher_courses")
-    price = models.DecimalField(
-        max_digits=10, decimal_places=2
-    )
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     category = models.ForeignKey(
         CourseCategory, on_delete=models.CASCADE, related_name="category_courses"
     )

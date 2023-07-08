@@ -14,7 +14,7 @@ class ProgramModulesSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ProgramModule
         fields = ["id", "course", "description", "title"]
-        read_only_fields = ['course']
+        read_only_fields = ["course"]
 
 
 class CourseListSerializer(serializers.ListSerializer):
@@ -37,7 +37,7 @@ class CourseSerializer(serializers.ModelSerializer):
             "is_published",
         ]
         list_serializer_class = CourseListSerializer
-        read_only_fields = ['author']
+        read_only_fields = ["author"]
 
     def create(self, validated_data):
         user = self.context["request"].user
@@ -46,8 +46,10 @@ class CourseSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['category'] = instance.category.title
-        representation['additions'] = AdditionsSerializer(instance.course_additions.all(), many=True).data
+        representation["category"] = instance.category.title
+        representation["additions"] = AdditionsSerializer(
+            instance.course_additions.all(), many=True
+        ).data
         return representation
 
 

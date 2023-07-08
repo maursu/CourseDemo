@@ -9,9 +9,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(_("username"), max_length=255, unique=True)
     is_teacher = models.BooleanField(
-        _("Is teacher"),
-        default=False,
-        help_text=_("Is user is teacher")
+        _("Is teacher"), default=False, help_text=_("Is user is teacher")
     )
     is_staff = models.BooleanField(
         _("Is staff"), default=False, help_text=_("Is user can login into admin site")

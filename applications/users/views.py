@@ -16,5 +16,5 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         elif self.request.method == "POST":
             self.permission_classes = [permissions.IsAuthenticated]
         else:
-            self.permission_classes = [IsObjectOwner]
+            self.permission_classes = [IsObjectOwner, permissions.IsAuthenticated]
         return super().get_permissions()

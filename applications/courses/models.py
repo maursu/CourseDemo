@@ -1,4 +1,5 @@
 import uuid
+
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -15,27 +16,30 @@ class AbstractModel(models.Model):
         abstract = True
 
     def __str__(self) -> str:
-        return self.id
+        return str(self.id)
 
 
 class CourseCategory(AbstractModel):
-    title = models.CharField(max_length=150, blank=False, null=False)
+    title = models.CharField(max_length=150, )
     description = models.TextField(blank=True)
 
     class Meta:
         verbose_name = "Course category"
         verbose_name_plural = "Course categories"
 
+    def __str__(self) -> str:
+        return self.title
+
 
 class Course(AbstractModel):
-    title = models.TextField(blank=False, null=False, unique=False)
+    title = models.TextField()
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="author_courses"
     )
     students = models.ManyToManyField(User, related_name="student_courses")
     teachers = models.ManyToManyField(User, related_name="teacher_courses")
     price = models.DecimalField(
-        blank=False, null=False, max_digits=10, decimal_places=2
+        max_digits=10, decimal_places=2
     )
     category = models.ForeignKey(
         CourseCategory, on_delete=models.CASCADE, related_name="category_courses"
@@ -48,24 +52,31 @@ class Course(AbstractModel):
         verbose_name = "Course"
         verbose_name_plural = "Courses"
 
+    def __str__(self) -> str:
+        return self.title
+
 
 class ProgramModule(AbstractModel):
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, related_name="program_modules"
     )
-    description = models.TextField(blank=False, null=False)
-    title = models.TextField(blank=False, null=False)
+    description = models.TextField()
+    title = models.CharField(max_length=150)
 
     class Meta:
         verbose_name = "Module"
         verbose_name_plural = "Modules"
+
+    def __str__(self) -> str:
+        return self.title
 
 
 class Addition(AbstractModel):
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, related_name="course_additions"
     )
-    text = models.TextField(blank=False, null=False)
+    title = models.CharField(max_length=100)
+    text = models.TextField()
 
     def __str__(self) -> str:
-        return self.text[:20] + '...'
+        return self.title

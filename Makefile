@@ -20,4 +20,9 @@ make shell:
 make docker-admin:
 	docker-compose exec -it main_api python manage.py createsuperuser
 
-#  gunicorn --bind 0.0.0.0:8000 config.wsgi:application"
+make data:
+	python manage.py createusers 10000
+	python manage.py createcourses 500 5 20
+
+make bind:
+	gunicorn --bind 0.0.0.0:8000 config.wsgi:application"

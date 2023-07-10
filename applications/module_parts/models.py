@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.validators import URLValidator as URL
 from django.db import models
 
 from applications.courses.models import AbstractModel
@@ -10,7 +11,7 @@ User = get_user_model()
 
 class AbstractModuleBlock(AbstractModel):
     text = models.TextField(blank=False, null=False)
-    video = models.FileField(upload_to="videos/%Y/%m/%d")
+    video = models.URLField(blank=True, validators=[URL])
     audio = models.FileField(upload_to="audios/%Y/%m/%d")
 
     class Meta:
